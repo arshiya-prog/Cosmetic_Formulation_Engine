@@ -1,0 +1,22 @@
+# ── Web framework ──────────────────────────────────────────────
+flask>=3.0.0
+flask-cors>=4.0.0
+
+# ── NLP / Zero-shot classification ─────────────────────────────
+transformers>=4.40.0
+torch>=2.2.0               # CPU build; swap for torch+cu121 if using GPU
+
+# ── Sentence embeddings (semantic search) ──────────────────────
+sentence-transformers>=2.7.0
+
+# ── Vector similarity search ────────────────────────────────────
+faiss-cpu>=1.8.0           # use faiss-gpu if running on CUDA
+
+# ── Data handling ───────────────────────────────────────────────
+pandas>=2.2.0
+numpy>=1.26.0
+
+# ── Utilities (already in stdlib, listed for clarity) ───────────
+# csv      — stdlib
+# os       — stdlib
+# random   — stdlib

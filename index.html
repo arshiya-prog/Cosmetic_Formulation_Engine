@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AuraFormulate | AI Cosmetic Lab</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --primary: #7b5556;
+    --primary-light: #f7c5c5;
+    --primary-container: #f7c5c5;
+    --secondary: #665b6c;
+    --secondary-container: #f2e3f7;
+    --surface: #fff8f7;
+    --surface-low: #fff0ee;
+    --surface-high: #fae3e0;
+    --surface-highest: #f6ddd9;
+    --on-surface: #3e2f2d;
+    --on-surface-variant: #6d5b58;
+    --outline: #8a7673;
+    --outline-variant: #c4adaa;
+    --tertiary-container: #f3e9de;
+    --safe-green: #2e7d32;
+    --safe-bg: #e8f5e9;
+    --warn-orange: #b85c00;
+    --warn-bg: #fff3e0;
+    --radius: 1rem;
+    --radius-lg: 1.5rem;
+    --radius-xl: 2rem;
+    --radius-full: 9999px;
+    --shadow-sm: 0 4px 16px rgba(62,47,45,0.06);
+    --shadow-md: 0 12px 40px rgba(62,47,45,0.09);
+    --shadow-lg: 0 24px 60px rgba(62,47,45,0.12);
+    --font-head: 'Plus Jakarta Sans', sans-serif;
+    --font-body: 'Manrope', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--surface);
+    color: var(--on-surface);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,248,247,0.82);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(123,85,86,0.08);
+    box-shadow: 0 2px 20px rgba(62,47,45,0.05);
+  }
+
+  nav {
+    max-width: 1280px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 2rem;
+  }
+
+  .logo {
+    font-family: var(--font-head);
+    font-size: 1.4rem; font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--primary);
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .logo:hover { transform: scale(1.04); }
+
+  .nav-links { display: flex; gap: 2.5rem; align-items: center; }
+  .nav-links a {
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--on-surface-variant);
+    text-decoration: none;
+    transition: color 0.2s;
+    padding-bottom: 2px;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--primary); border-bottom: 2px solid var(--primary); }
+
+  .nav-avatar {
+    width: 38px; height: 38px; border-radius: var(--radius-full);
+    background: var(--primary-container);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: transform 0.2s;
+    font-size: 1.1rem;
+  }
+  .nav-avatar:hover { transform: scale(1.08); }
+
+  /* MAIN */
+  main { max-width: 1280px; margin: 0 auto; padding: 3.5rem 2rem 5rem; }
+
+  /* HERO */
+  .hero { text-align: center; margin-bottom: 3.5rem; }
+
+  .hero h1 {
+    font-family: var(--font-head);
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .hero p {
+    font-size: 1.1rem; font-weight: 500;
+    color: var(--on-surface-variant);
+    opacity: 0.85;
+    margin-bottom: 2.5rem;
+  }
+
+  /* INPUT TRAY */
+  .input-tray {
+    max-width: 860px; margin: 0 auto;
+    background: linear-gradient(145deg, rgba(247,197,197,0.18), rgba(242,227,247,0.18));
+    border-radius: var(--radius-xl);
+    padding: 3px;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .input-inner {
+    background: rgba(255,240,238,0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: calc(var(--radius-xl) - 3px);
+    padding: 2rem;
+    display: flex; flex-direction: column; gap: 1.25rem;
+  }
+
+  .input-wrapper { position: relative; }
+
+  textarea {
+    width: 100%;
+    background: rgba(246,221,217,0.35);
+    border: 1.5px solid rgba(123,85,86,0.1);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem 1.5rem;
+    font-family: var(--font-body);
+    font-size: 1.05rem; line-height: 1.6;
+    color: var(--on-surface);
+    resize: none; min-height: 140px;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  textarea::placeholder { color: var(--outline-variant); }
+  textarea:focus {
+    border-color: rgba(123,85,86,0.3);
+    background: rgba(255,255,255,0.75);
+    box-shadow: 0 0 0 4px rgba(247,197,197,0.3);
+  }
+
+  .input-badge {
+    position: absolute; bottom: 14px; right: 16px;
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--outline-variant);
+  }
+
+  .input-actions { display: flex; justify-content: flex-end; gap: 0.75rem; }
+
+  .btn-primary {
+    background: var(--primary);
+    color: #fff8f7;
+    border: none; border-radius: var(--radius-full);
+    padding: 0.85rem 2rem;
+    font-family: var(--font-head);
+    font-size: 0.95rem; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center; gap: 0.5rem;
+    transition: transform 0.15s, box-shadow 0.2s, background 0.2s;
+    box-shadow: 0 8px 24px rgba(123,85,86,0.3);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(123,85,86,0.38); background: #6b4747; }
+  .btn-primary:active { transform: scale(0.97); }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  .btn-secondary {
+    background: rgba(255,255,255,0.7);
+    color: var(--on-surface-variant);
+    border: 1.5px solid rgba(123,85,86,0.12);
+    border-radius: var(--radius-full);
+    padding: 0.85rem 1.5rem;
+    font-family: var(--font-body);
+    font-size: 0.9rem; font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s, background 0.2s;
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.95); transform: translateY(-1px); }
+
+  /* SPINNER */
+  .spinner {
+    display: inline-block; width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* RESULTS SECTION */
+  .results-header {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+  .results-header h2 {
+    font-family: var(--font-head);
+    font-size: 1.9rem; font-weight: 800;
+    letter-spacing: -0.03em; color: var(--primary);
+  }
+  .result-id {
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--outline-variant);
+  }
+
+  /* BENTO GRID */
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.25rem;
+  }
+
+  .card {
+    background: var(--surface-low);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+  .card-icon {
+    width: 46px; height: 46px; border-radius: var(--radius-full);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; margin-bottom: 1.25rem;
+  }
+
+  .card-label {
+    font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--outline); margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  /* Attributes card */
+  .card-attributes { grid-column: span 4; }
+  .attr-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid rgba(123,85,86,0.06);
+  }
+  .attr-row:last-child { border-bottom: none; }
+  .attr-key { font-size: 0.88rem; color: var(--on-surface-variant); font-weight: 500; }
+  .attr-val {
+    background: rgba(255,255,255,0.7);
+    padding: 0.25rem 0.85rem;
+    border-radius: var(--radius-full);
+    font-size: 0.82rem; font-weight: 700;
+    color: var(--primary);
+  }
+
+  /* Ingredients card */
+  .card-ingredients { grid-column: span 8; }
+  .ingredient-pills { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.25rem; }
+  .pill {
+    background: #fff;
+    padding: 0.55rem 1.1rem;
+    border-radius: var(--radius-full);
+    font-size: 0.85rem; font-weight: 600;
+    color: var(--on-surface);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.15s, transform 0.15s;
+    cursor: default;
+  }
+  .pill:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+
+  /* Safety card */
+  .card-safety {
+    grid-column: span 5;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; gap: 1rem;
+    position: relative; overflow: hidden;
+    background: #fff;
+    border: 1px solid rgba(123,85,86,0.05);
+  }
+  .card-safety::before {
+    content: '';
+    position: absolute; top: -30px; right: -30px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: var(--tertiary-container);
+    opacity: 0.4;
+    filter: blur(24px);
+  }
+
+  .safety-icon {
+    width: 72px; height: 72px; border-radius: var(--radius-full);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+  }
+  .safety-icon.safe { background: var(--safe-bg); }
+  .safety-icon.warn { background: var(--warn-bg); }
+
+  .safety-title {
+    font-family: var(--font-head);
+    font-size: 1.4rem; font-weight: 800; color: var(--on-surface);
+  }
+  .safety-body { font-size: 0.88rem; color: var(--on-surface-variant); max-width: 220px; line-height: 1.5; }
+  .safety-badge {
+    display: flex; align-items: center; gap: 0.4rem;
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .safety-badge.safe { color: var(--safe-green); }
+  .safety-badge.warn { color: var(--warn-orange); }
+
+  /* Score card */
+  .card-score {
+    grid-column: span 7;
+    background: linear-gradient(145deg, rgba(247,197,197,0.2), rgba(242,227,247,0.2));
+    border: 1px solid rgba(123,85,86,0.08);
+  }
+  .score-display {
+    display: flex; align-items: flex-end; gap: 0.5rem;
+    margin: 1rem 0;
+  }
+  .score-number {
+    font-family: var(--font-head);
+    font-size: 3.5rem; font-weight: 800;
+    letter-spacing: -0.04em; color: var(--primary);
+    line-height: 1;
+  }
+  .score-max {
+    font-size: 1.2rem; font-weight: 600;
+    color: var(--outline-variant); margin-bottom: 0.4rem;
+  }
+  .score-bar-wrap {
+    width: 100%; height: 8px;
+    background: rgba(123,85,86,0.1);
+    border-radius: var(--radius-full); overflow: hidden;
+    margin-bottom: 0.75rem;
+  }
+  .score-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-light), var(--primary));
+    border-radius: var(--radius-full);
+    transition: width 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+    width: 0%;
+  }
+  .score-label {
+    font-size: 0.78rem; font-weight: 600;
+    color: var(--on-surface-variant); line-height: 1.5;
+  }
+
+  /* Benefits card */
+  .card-benefits { grid-column: span 7; }
+  .benefit-item {
+    display: flex; align-items: flex-start; gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(123,85,86,0.06);
+  }
+  .benefit-item:last-child { border-bottom: none; }
+  .benefit-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--primary); margin-top: 6px; flex-shrink: 0;
+  }
+  .benefit-text { font-size: 0.9rem; color: var(--on-surface-variant); line-height: 1.55; }
+
+  /* ── Efficacy card: new structured layout ── */
+  .benefit-approval-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.35rem 0 0.5rem 1.6rem; }
+  .benefit-approval-pill {
+    font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.04em;
+    background: var(--primary-container);
+    color: var(--primary);
+    border-radius: 999px;
+    padding: 0.2rem 0.65rem;
+  }
+  .benefit-section-label {
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--outline); margin: 0.45rem 0 0.2rem 1.6rem;
+  }
+  .benefit-sub-item {
+    display: flex; align-items: flex-start; gap: 0.5rem;
+    margin: 0.15rem 0 0 1.6rem;
+    font-size: 0.85rem; color: var(--on-surface-variant); line-height: 1.5;
+  }
+  .benefit-sub-item::before {
+    content: '';
+    display: inline-block; width: 3px; height: 3px; border-radius: 50%;
+    background: var(--outline-variant); margin-top: 8px; flex-shrink: 0;
+  }
+  .benefit-note {
+    margin: 0.35rem 0 0 1.6rem;
+    font-size: 0.8rem; color: #b05a3a; font-weight: 500;
+  }
+
+  /* Description card */
+  .card-description { grid-column: span 5; }
+  .desc-text {
+    font-size: 0.95rem; line-height: 1.7;
+    color: var(--on-surface-variant);
+    font-style: italic;
+  }
+
+  /* RECENT STYLES */
+  .section-title {
+    font-family: var(--font-head);
+    font-size: 1.5rem; font-weight: 800;
+    letter-spacing: -0.02em; color: var(--primary);
+    margin-bottom: 1.5rem;
+  }
+
+  .styles-scroll {
+    display: flex; gap: 1.5rem;
+    overflow-x: auto; padding-bottom: 1rem;
+    -ms-overflow-style: none; scrollbar-width: none;
+  }
+  .styles-scroll::-webkit-scrollbar { display: none; }
+
+  .style-card {
+    min-width: 280px;
+    background: var(--surface-low);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    position: relative;
+    box-shadow: var(--shadow-sm);
+  }
+  .style-card:hover { background: var(--surface-high); transform: translateY(-3px); }
+
+  .style-thumb {
+    width: 120px; height: 120px;
+    object-fit: contain;
+    display: block; margin: -2.5rem auto 1rem;
+    filter: drop-shadow(0 12px 24px rgba(62,47,45,0.18));
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .style-card:hover .style-thumb { transform: translateY(-10px); }
+
+  .style-sub {
+    font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--outline-variant); margin-bottom: 0.3rem;
+  }
+  .style-name {
+    font-family: var(--font-head);
+    font-size: 1.1rem; font-weight: 700; color: var(--on-surface);
+    margin-bottom: 1rem;
+  }
+  .style-link {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.85rem; font-weight: 700; color: var(--primary);
+  }
+
+  /* EMPTY / LOADING STATES */
+  .results-empty {
+    text-align: center; padding: 4rem 2rem;
+    color: var(--on-surface-variant);
+  }
+  .results-empty .empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.4; }
+  .results-empty p { font-size: 1rem; font-weight: 500; opacity: 0.7; }
+
+  /* FADE IN */
+  .fade-in {
+    animation: fadeIn 0.5s ease forwards;
+    opacity: 0;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in:nth-child(1) { animation-delay: 0.05s; }
+  .fade-in:nth-child(2) { animation-delay: 0.1s; }
+  .fade-in:nth-child(3) { animation-delay: 0.15s; }
+  .fade-in:nth-child(4) { animation-delay: 0.2s; }
+  .fade-in:nth-child(5) { animation-delay: 0.25s; }
+  .fade-in:nth-child(6) { animation-delay: 0.3s; }
+
+  /* ERROR TOAST */
+  .toast {
+    position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    background: #3e2f2d; color: #fff8f7;
+    padding: 0.85rem 1.75rem;
+    border-radius: var(--radius-full);
+    font-size: 0.9rem; font-weight: 600;
+    box-shadow: var(--shadow-lg);
+    z-index: 999;
+    animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards;
+  }
+  @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(16px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+  @keyframes toastOut { to { opacity: 0; transform: translateX(-50%) translateY(16px); } }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid rgba(123,85,86,0.08);
+    padding: 2.5rem 2rem;
+    display: flex; flex-direction: column; align-items: center; gap: 1rem;
+    background: var(--surface);
+  }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a {
+    font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--outline-variant); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--primary); }
+  .footer-copy {
+    font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--primary); opacity: 0.7;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .bento { grid-template-columns: 1fr; }
+    .card-attributes, .card-ingredients, .card-safety,
+    .card-score, .card-benefits, .card-description { grid-column: span 1; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">AuraFormulate</div>
+    <div class="nav-links">
+      <a href="#lab" class="active">Lab</a>
+      <a href="#ingredients">Ingredients</a>
+      <a href="#safety">Safety</a>
+      <a href="#archive">Archive</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:1rem;">
+  <span id="navUserName" style="font-size:0.8rem;font-weight:600;color:var(--on-surface-variant);"></span>
+  <div class="nav-avatar" title="Logout" onclick="logout()">🌸</div>
+</div>
+  </nav>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" id="lab">
+    <h1>Cosmetic Formulation Engine</h1>
+    <p>AI-powered personalized cosmetic generator</p>
+
+    <div class="input-tray">
+      <div class="input-inner">
+        <div class="input-wrapper">
+          <textarea id="promptInput" placeholder="Describe your cosmetic product (e.g. rose lip balm for dry lips)..." rows="4"></textarea>
+          <span class="input-badge">AI Engine Ready</span>
+        </div>
+        <div class="input-actions">
+          <button class="btn-secondary" onclick="clearAll()">Clear</button>
+          <button class="btn-primary" id="generateBtn" onclick="generate()">
+            <span id="btnText">✨ Generate Formulation</span>
+            <span id="btnSpinner" class="spinner" style="display:none;"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results" style="margin-top: 4rem;">
+    <div class="results-header">
+      <h2>Current Formulation</h2>
+      <span class="result-id" id="resultId">—</span>
+    </div>
+
+    <div id="resultsContent">
+      <div class="results-empty">
+        <div class="empty-icon">🧪</div>
+        <p>Your formulation will appear here after generation.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECENT STYLES -->
+  <section style="margin-top: 4rem;" id="archive">
+    <div class="section-title">Recently Generated Styles</div>
+    <div class="styles-scroll" id="recentStyles">
+      <div style="color: var(--outline-variant); font-size:0.9rem; padding: 1rem 0;">No recent formulations yet.</div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+    <a href="#">Ethical Sourcing</a>
+  </div>
+  <p class="footer-copy">© 2024 AuraFormulate. Powered by AI.</p>
+</footer>
+
+<script>
+  const _user = sessionStorage.getItem("af_user") || localStorage.getItem("af_user");
+if (!_user) window.location.href = "login.html";
+  const BACKEND = "http://127.0.0.1:5000";
+  let resultCounter = 1000;
+  let recentFormulations = [];
+
+  async function generate() {
+    const prompt = document.getElementById("promptInput").value.trim();
+    if (!prompt) { showToast("Please enter a product description."); return; }
+
+    setLoading(true);
+
+    try {
+      const res = await fetch(`${BACKEND}/generate`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
+      });
+
+      if (!res.ok) throw new Error(`Backend error: ${res.status}`);
+      const data = await res.json();
+
+      resultCounter++;
+      document.getElementById("resultId").textContent = `Result ID: #AF-${resultCounter}`;
+
+      renderResults(data, prompt);
+      await runBenchmark(data);
+      addToRecent(data, prompt);
+    } catch (err) {
+      showToast("Backend not reachable. Make sure Flask is running on port 5000.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }
+  async function runBenchmark(data) {
+  try {
+    const ingredients = (data.ingredients || "").split(",").map(i => i.trim()).filter(Boolean);
+    const product_type = (data.product_type || "").toLowerCase().replace(/_/g, " ");
+
+    const res = await fetch(`${BACKEND}/benchmark`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ingredients, product_type })
+    });
+
+    const benchData = await res.json();
+    const competitors = benchData.competitors || [];
+    if (competitors.length === 0) return;
+
+    window._benchSwitch = function(i) {
+      document.getElementById("benchmarkInner").innerHTML = getBenchmarkHTML(i);
+    };
+
+    function getBenchmarkHTML(compIndex) {
+      const comp = competitors[compIndex];
+      const yourSet = new Set(ingredients.map(i => i.toLowerCase()));
+      const compSet = new Set(comp.theirOnly.map(i => i.toLowerCase()));
+
+      const verdictColor = comp.verdict === "Your product leads" ? "#3B6D11"
+        : comp.verdict === "Very similar products" ? "#185FA5" : "#993556";
+      const verdictBg = comp.verdict === "Your product leads" ? "#EAF3DE"
+        : comp.verdict === "Very similar products" ? "#E6F1FB" : "#FBEAF0";
+      const verdictIcon = comp.verdict === "Your product leads" ? "▲"
+        : comp.verdict === "Very similar products" ? "≈" : "◇";
+
+      const compTabs = competitors.map((c, i) =>
+        '<button onclick="window._benchSwitch(' + i + ')" style="padding:5px 12px;border-radius:20px;font-size:12px;cursor:pointer;border:0.5px solid #d4b0b0;background:' + (i === compIndex ? '#5c2d2d' : 'transparent') + ';color:' + (i === compIndex ? '#fdf0f0' : '#8a6a6a') + ';">' +
+        c.name.split(" ").slice(0, 2).join(" ") + '</button>'
+      ).join("");
+
+      const sharedRows = comp.shared.map(i =>
+        '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:0.5px solid rgba(180,120,120,0.15);">' +
+        '<span style="font-size:13px;font-weight:500;color:#3d1a1a;text-transform:capitalize;">' + i + '</span>' +
+        '<span style="font-size:11px;padding:3px 10px;border-radius:20px;background:rgba(200,230,255,0.5);color:#185FA5;">Shared</span></div>'
+      ).join("");
+
+      const yourRows = comp.yourOnly.map(i =>
+        '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:0.5px solid rgba(180,120,120,0.15);">' +
+        '<span style="font-size:13px;font-weight:500;color:#3d1a1a;text-transform:capitalize;">' + i + '</span>' +
+        '<span style="font-size:11px;padding:3px 10px;border-radius:20px;background:rgba(200,240,200,0.6);color:#3B6D11;">Your edge</span></div>'
+      ).join("");
+
+      const theirRows = comp.theirOnly.map(i =>
+        '<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:0.5px solid rgba(180,120,120,0.15);">' +
+        '<span style="font-size:13px;color:#b08080;text-transform:capitalize;">' + i + '</span>' +
+        '<span style="font-size:11px;padding:3px 10px;border-radius:20px;background:rgba(200,200,200,0.3);color:#888;">Theirs only</span></div>'
+      ).join("");
+
+      const weaknesses = comp.weaknesses.map(w =>
+        '<div style="display:flex;gap:8px;align-items:flex-start;margin-bottom:8px;">' +
+        '<span style="color:#c97a7a;font-size:14px;">✗</span>' +
+        '<span style="font-size:13px;color:#8a6a6a;">' + w + '</span></div>'
+      ).join("");
+
+      const overlapBars = competitors.map(c => {
+        const col = c.overlap >= 50 ? '#8fba78' : c.overlap >= 30 ? '#c97a7a' : '#c4b0b0';
+        return '<div style="margin-bottom:10px;">' +
+          '<div style="display:flex;justify-content:space-between;margin-bottom:4px;">' +
+          '<span style="font-size:12px;color:#8a6a6a;">' + c.name + '</span>' +
+          '<span style="font-size:12px;font-weight:500;color:#3d1a1a;">' + c.overlap + '%</span></div>' +
+          '<div style="height:5px;border-radius:3px;background:rgba(180,120,120,0.15);">' +
+          '<div style="height:100%;border-radius:3px;width:' + c.overlap + '%;background:' + col + ';"></div></div></div>';
+      }).join("");
+
+      return '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem;">' + compTabs + '</div>' +
+        '<div style="background:rgba(255,235,235,0.35);border-radius:16px;padding:1.25rem;margin-bottom:1rem;">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px;">' +
+        '<p style="font-size:14px;font-weight:600;color:#3d1a1a;">' + comp.name + '</p>' +
+        '<span style="padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;background:' + verdictBg + ';color:' + verdictColor + ';">' + verdictIcon + ' ' + comp.verdict + '</span></div>' +
+        '<p style="font-size:13px;color:#8a6a6a;line-height:1.6;margin-bottom:12px;">Your formula has <strong>' + comp.yourOnly.length + '</strong> unique active(s) they don\'t have, shares <strong>' + comp.shared.length + '</strong> ingredient(s), and has <strong>' + comp.overlap + '%</strong> ingredient overlap.</p>' +
+        sharedRows + yourRows + theirRows + '</div>' +
+        '<div style="background:rgba(255,235,235,0.35);border-radius:16px;padding:1.25rem;margin-bottom:1rem;">' +
+        '<p style="font-size:11px;letter-spacing:0.08em;color:#b08080;text-transform:uppercase;margin-bottom:12px;">Competitor weaknesses</p>' +
+        weaknesses + '</div>' +
+        '<div style="background:rgba(255,235,235,0.35);border-radius:16px;padding:1.25rem;">' +
+        '<p style="font-size:11px;letter-spacing:0.08em;color:#b08080;text-transform:uppercase;margin-bottom:12px;">Overlap across all competitors</p>' +
+        overlapBars + '</div>';
+    }
+
+    document.getElementById("benchmarkSection").style.display = "block";
+    document.getElementById("benchmarkInner").innerHTML = getBenchmarkHTML(0);
+
+  } catch (err) {
+    console.error("Benchmark error:", err);
+  }
+}
+
+  function renderResults(data, prompt) {
+    const ingredients = (data.ingredients || "").split(",").map(i => i.trim()).filter(Boolean);
+    const score = parseFloat(data.score || 0);
+    const scorePercent = Math.round(score * 100);
+    const isSafe = (data.safe || "").includes("✅");
+    const ingredientsData = parseBenefits(data.benefits || "");
+
+    const html = `
+      <div class="bento">
+
+        <!-- ATTRIBUTES -->
+        <div class="card card-attributes fade-in" id="ingredients">
+          <div class="card-icon" style="background: var(--primary-container);">🌿</div>
+          <span class="card-label">Attributes</span>
+          <div class="attr-row"><span class="attr-key">Product Type</span><span class="attr-val">${cap(data.product_type)}</span></div>
+          <div class="attr-row"><span class="attr-key">Primary Concern</span><span class="attr-val">${cap(data.primary_concern)}</span></div>
+          <div class="attr-row"><span class="attr-key">Texture</span><span class="attr-val">${cap(data.texture)}</span></div>
+          <div class="attr-row"><span class="attr-key">Color</span><span class="attr-val">${cap(data.color)}</span></div>
+          ${data.flavor ? `<div class="attr-row"><span class="attr-key">Flavor</span><span class="attr-val">${cap(data.flavor)}</span></div>` : ""}
+        </div>
+
+        <!-- INGREDIENTS -->
+        <div class="card card-ingredients fade-in">
+          <div class="card-icon" style="background: var(--secondary-container);">💧</div>
+          <span class="card-label">Ingredient Profile</span>
+          <div class="ingredient-pills">
+            ${ingredients.map(i => `<span class="pill">${cap(i)}</span>`).join("")}
+          </div>
+        </div>
+
+        <!-- SAFETY -->
+        <div class="card card-safety fade-in" id="safety">
+          <div class="safety-icon ${isSafe ? 'safe' : 'warn'}">${isSafe ? '🛡️' : '⚠️'}</div>
+          <div class="safety-title">${isSafe ? 'Formulation Safe' : 'Safety Warning'}</div>
+          <div class="safety-body">${isSafe
+            ? 'This combination has been checked against known ingredient interaction rules.'
+            : escapeHtml((data.safe || "").replace("⚠️", "").trim())
+          }</div>
+          <div class="safety-badge ${isSafe ? 'safe' : 'warn'}">
+            ${isSafe ? '✔ Cleared for Use' : '⚠ Review Before Use'}
+          </div>
+        </div>
+
+        <!-- SCORE -->
+        <div class="card card-score fade-in">
+          <div class="card-icon" style="background: rgba(247,197,197,0.4);">📊</div>
+          <span class="card-label">Semantic Match Score</span>
+          <div class="score-display">
+            <span class="score-number">${score.toFixed(2)}</span>
+            <span class="score-max">/ 1.00</span>
+          </div>
+          <div class="score-bar-wrap">
+            <div class="score-bar" id="scoreBar"></div>
+          </div>
+          <div class="score-label">
+            Cosine similarity between your prompt and the closest formulation in the database,
+            computed using <strong>all-MiniLM-L6-v2</strong> embeddings via FAISS.
+            A score closer to <strong>1.0</strong> indicates a stronger semantic match.
+          </div>
+        </div>
+
+        <!-- BENEFITS -->
+        <div class="card card-benefits fade-in">
+        <div class="card-icon" style="background: var(--primary-container);">✨</div>
+        <span class="card-label">Efficacy &amp; Benefits</span>
+
+        ${ingredientsData.map(ing => `
+            <div class="benefit-item" style="flex-direction: column; gap: 0;">
+
+              <!-- Ingredient Name Row -->
+              <div style="display:flex; align-items:center; gap:0.6rem;">
+                <div class="benefit-dot"></div>
+                <strong style="font-size:0.92rem; color: var(--on-surface);">
+                  ${escapeHtml(ing.name)}
+                </strong>
+              </div>
+
+              <!-- Approval Pills -->
+              ${(ing.verification || []).length ? `
+                <div class="benefit-approval-pills">
+                  ${ing.verification.map(v => `<span class="benefit-approval-pill">${escapeHtml(v)}</span>`).join("")}
+                </div>
+              ` : ""}
+
+              <!-- Verification sub-items (if any non-approval lines) -->
+              ${(ing.verificationDetails || []).length ? `
+                <div class="benefit-section-label">Verification</div>
+                ${ing.verificationDetails.map(v => `<div class="benefit-sub-item">${escapeHtml(v)}</div>`).join("")}
+              ` : ""}
+
+              <!-- Benefits -->
+              ${(ing.benefits || []).filter(b => !b.toLowerCase().startsWith("note")).length ? `
+                <div class="benefit-section-label">Benefits</div>
+                ${ing.benefits.filter(b => !b.toLowerCase().startsWith("note")).map(b => `
+                  <div class="benefit-sub-item">${escapeHtml(b)}</div>
+                `).join("")}
+              ` : ""}
+
+              <!-- Note -->
+              ${(ing.benefits || []).filter(b => b.toLowerCase().startsWith("note")).map(b => `
+                <div class="benefit-note">⚠️ ${escapeHtml(b)}</div>
+              `).join("")}
+
+            </div>
+        `).join("")}
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="card card-description fade-in">
+          <div class="card-icon" style="background: var(--tertiary-container);">📝</div>
+          <span class="card-label">Product Description</span>
+          <p class="desc-text">
+            ${generateDescription(data, prompt)}
+            </p>
+        </div>
+
+      </div>
+      <!-- BENCHMARK -->
+<div id="benchmarkSection" style="display:none;margin-top:1.5rem;">
+  <div style="font-size:18px;font-weight:500;color:#3d1a1a;margin-bottom:1rem;">How does your product compare?</div>
+  <div id="benchmarkInner"></div>
+</div>
+    `;
+
+    document.getElementById("resultsContent").innerHTML = html;
+
+    // Animate score bar after render
+    setTimeout(() => {
+      const bar = document.getElementById("scoreBar");
+      if (bar) bar.style.width = `${scorePercent}%`;
+    }, 200);
+  }
+
+  function addToRecent(data, prompt) {
+    recentFormulations.unshift({ data, prompt, id: resultCounter });
+    if (recentFormulations.length > 6) recentFormulations.pop();
+    renderRecent();
+  }
+
+  const PRODUCT_EMOJI = {
+    lip_balm: "💄", face_cream: "🫙", serum: "💧", toner: "🌿", sunscreen: "☀️"
+  };
+  function generateProductThumb(productType, concern) {
+    const palettes = {
+      dryness:   { a: '#c97b5a', b: '#fce4d6', c: '#f4b8a0' },
+      oily:      { a: '#4a9b7a', b: '#d6f0e8', c: '#a8d8c4' },
+      sensitive: { a: '#8a5fc2', b: '#f0e8fd', c: '#d4b8f8' },
+      general:   { a: '#7b5556', b: '#fde8ec', c: '#f8c0cc' },
+    };
+    const key = (concern || 'general').toLowerCase().replace(/\s+/g, '');
+    const p = palettes[key] || palettes.general;
+    const type = (productType || '').toLowerCase();
+
+    if (type.includes('lip')) {
+      // Lip balm tube
+      return `<svg viewBox="0 0 80 80" width="60" height="60" xmlns="http://www.w3.org/2000/svg">
+        <rect x="28" y="18" width="24" height="38" rx="8" fill="${p.a}" opacity="0.9"/>
+        <rect x="28" y="18" width="24" height="12" rx="6" fill="${p.a}"/>
+        <rect x="31" y="30" width="18" height="22" rx="3" fill="${p.b}" opacity="0.55"/>
+        <ellipse cx="40" cy="56" rx="12" ry="4" fill="${p.a}" opacity="0.35"/>
+        <rect x="34" y="13" width="12" height="7" rx="3" fill="${p.a}" opacity="0.7"/>
+        <circle cx="52" cy="22" r="5" fill="${p.c}" opacity="0.8"/>
+      </svg>`;
+    } else if (type.includes('serum') || type.includes('oil') || type.includes('toner')) {
+      // Dropper bottle
+      return `<svg viewBox="0 0 80 80" width="60" height="60" xmlns="http://www.w3.org/2000/svg">
+        <rect x="30" y="28" width="20" height="32" rx="10" fill="${p.a}" opacity="0.85"/>
+        <rect x="34" y="18" width="12" height="12" rx="3" fill="${p.a}" opacity="0.6"/>
+        <line x1="40" y1="10" x2="40" y2="20" stroke="${p.a}" stroke-width="4" stroke-linecap="round"/>
+        <ellipse cx="40" cy="44" rx="6" ry="10" fill="${p.b}" opacity="0.45"/>
+        <circle cx="52" cy="54" r="4" fill="${p.c}" opacity="0.7"/>
+      </svg>`;
+    } else if (type.includes('sunscreen') || type.includes('spf')) {
+      // Tube
+      return `<svg viewBox="0 0 80 80" width="60" height="60" xmlns="http://www.w3.org/2000/svg">
+        <rect x="22" y="22" width="36" height="44" rx="10" fill="${p.a}" opacity="0.85"/>
+        <rect x="22" y="22" width="36" height="14" rx="8" fill="${p.c}" opacity="0.9"/>
+        <rect x="26" y="38" width="28" height="4" rx="2" fill="${p.b}" opacity="0.5"/>
+        <rect x="26" y="46" width="20" height="4" rx="2" fill="${p.b}" opacity="0.35"/>
+      </svg>`;
+    } else {
+      // Default: cream jar
+      return `<svg viewBox="0 0 80 80" width="60" height="60" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="40" cy="54" rx="22" ry="7" fill="${p.a}" opacity="0.25"/>
+        <rect x="18" y="36" width="44" height="20" rx="8" fill="${p.a}" opacity="0.85"/>
+        <ellipse cx="40" cy="36" rx="22" ry="7" fill="${p.c}" opacity="0.9"/>
+        <ellipse cx="40" cy="36" rx="13" ry="4" fill="${p.b}" opacity="0.7"/>
+        <rect x="25" y="39" width="30" height="4" rx="2" fill="${p.b}" opacity="0.25"/>
+      </svg>`;
+    }
+  }
+
+  function renderRecent() {
+    const el = document.getElementById("recentStyles");
+    if (!recentFormulations.length) return;
+    el.innerHTML = recentFormulations.map(({ data, prompt, id }) => {
+      const name = `${cap(data.flavor || "")} ${cap((data.product_type || "").replace("_", " "))}`.trim();
+      const sub = cap(data.primary_concern || "General");
+      const thumbSVG = generateProductThumb(data.product_type, data.primary_concern);
+      return `
+        <div class="style-card">
+          <div style="width:100%;height:80px;border-radius:10px;overflow:hidden;margin-bottom:1rem;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--surface-high),var(--tertiary-container));">
+            ${thumbSVG}
+          </div>
+          <div style="font-size:15px;font-weight:700;color:#3d1a1a;margin-bottom:0.5rem;font-family:inherit;">How does your product compare?</div>
+          <div class="style-sub">${sub}</div>
+          <div class="style-name">${name}</div>
+          <div class="style-link">
+            <span>Result #AF-${id}</span>
+            <span>→</span>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+
+
+  function clearAll() {
+    document.getElementById("promptInput").value = "";
+    document.getElementById("resultId").textContent = "—";
+    document.getElementById("resultsContent").innerHTML = `
+      <div class="results-empty">
+        <div class="empty-icon">🧪</div>
+        <p>Your formulation will appear here after generation.</p>
+      </div>`;
+  }
+
+  function setLoading(on) {
+    const btn = document.getElementById("generateBtn");
+    const txt = document.getElementById("btnText");
+    const spin = document.getElementById("btnSpinner");
+    btn.disabled = on;
+    txt.textContent = on ? "Generating..." : "✨ Generate Formulation";
+    spin.style.display = on ? "inline-block" : "none";
+  }
+
+  function showToast(msg) {
+    const existing = document.querySelector(".toast");
+    if (existing) existing.remove();
+    const t = document.createElement("div");
+    t.className = "toast";
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3200);
+  }
+
+  function cap(str) {
+    if (!str) return "";
+    return str.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+  function escapeHtml(str) {
+    return (str || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+
+  function parseBenefits(text) {
+    const lines = text.split("\n").map(l => l.trim()).filter(Boolean);
+
+    const result = [];
+    let current = null;
+    let mode = null; // "verification" | "benefits" | null
+
+    const IGNORE_LINES = [
+        "verified cosmetic ingredients with trusted sources",
+        "verification",
+        "verification:",
+        "proven benefits",
+        "proven benefits:"
+    ];
+
+    const APPROVALS = ["FDA", "CIR", "WHO", "EMA"];
+
+    lines.forEach(line => {
+        const clean = line.replace(/[^\w\s:]/g, "").trim();
+        const upper = clean.toUpperCase();
+        const lower = clean.toLowerCase();
+
+        // ❌ skip section header junk lines
+        if (IGNORE_LINES.some(phrase => lower.includes(phrase))) {
+          // But use them to set mode
+          if (lower.includes("verification")) mode = "verification";
+          else if (lower.includes("benefits")) mode = "benefits";
+          return;
+        }
+
+        // 🧠 Detect ingredient (title case, not an approval source)
+        if (
+            !APPROVALS.includes(upper) &&
+            !lower.startsWith("note") &&
+            /^[A-Z][a-z]+(\s[A-Z][a-z]+)*$/.test(clean)
+        ) {
+          current = { name: clean, benefits: [], verification: [], verificationDetails: [] };
+          result.push(current);
+          mode = null;
+          return;
+        }
+
+        if (!current) return;
+
+        // ✅ Approval sources → pill badges
+        if (APPROVALS.includes(upper)) {
+          current.verification.push("Approved by " + clean);
+          return;
+        }
+
+        // ⚠️ notes → special
+        if (lower.startsWith("note")) {
+          current.benefits.push(clean);
+          return;
+        }
+
+        // Everything else: use mode to bucket, default to benefits
+        if (mode === "verification") {
+          current.verificationDetails.push(clean);
+        } else {
+          current.benefits.push(clean);
+        }
+    });
+
+    return result;
+  }
+
+  function detectTargetArea(prompt) {
+    const p = prompt.toLowerCase();
+
+    if (p.includes("lip")) return "lips";
+    if (p.includes("face")) return "face";
+    if (p.includes("skin")) return "skin";
+    if (p.includes("hair")) return "hair";
+
+    return "skin"; // default fallback
+    }
+
+    function generateDescription(data, prompt) {
+    const area = detectTargetArea(prompt);
+
+    const flavor = data.flavor ? `${data.flavor} flavored ` : "";
+    const type = (data.product_type || "product").replace("_", " ");
+
+    return `
+        This ${flavor}${type} is specially formulated to gently soothe and protect sensitive ${area}. 
+        It contains a blend of nourishing ingredients like ${(data.ingredients || "").toLowerCase()}, 
+        ensuring effective care and protection.
+    `;
+    }
+
+  // Enter key submits
+  document.getElementById("promptInput").addEventListener("keydown", e => {
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) generate();
+  });
+</script>
+</body>
+</html>

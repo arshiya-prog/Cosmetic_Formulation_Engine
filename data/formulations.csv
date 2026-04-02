@@ -1,0 +1,30 @@
+product_type,skin_concern,texture,color,flavor,ingredients
+lip_balm,dryness,moisturizing,clear,cherry,"beeswax, shea butter, coconut oil, vitamin e"
+lip_balm,dryness,moisturizing,clear,blueberry,"beeswax, cocoa butter, jojoba oil, vitamin e"
+lip_balm,dryness,rich,rose,strawberry,"beeswax, shea butter, castor oil, rose pigment"
+lip_balm,sensitive,moisturizing,clear,vanilla,"beeswax, calendula oil, aloe vera extract, jojoba oil"
+lip_balm,sensitive,lightweight,clear,blueberry,"beeswax, almond oil, aloe vera extract, vitamin e"
+lip_balm,brightening,moisturizing,rose,cherry,"beeswax, almond oil, vitamin e, rose extract"
+lip_balm,dryness,moisturizing,clear,mint,"beeswax, coconut oil, peppermint oil, shea butter"
+lip_balm,sensitive,rich,clear,neutral,"beeswax, shea butter, calendula oil, chamomile extract"
+
+face_cream,dryness,rich,white,neutral,"shea butter, ceramides, glycerin, squalane, hyaluronic acid"
+face_cream,dryness,moisturizing,white,neutral,"glycerin, hyaluronic acid, panthenol, squalane"
+face_cream,oily_skin,lightweight,white,neutral,"niacinamide, zinc, hyaluronic acid, water, glycerin"
+face_cream,oily_skin,gel,clear,neutral,"niacinamide, salicylic acid, aloe vera, tea tree oil"
+face_cream,sensitive,moisturizing,white,neutral,"ceramides, aloe vera, chamomile extract, glycerin"
+face_cream,brightening,lightweight,white,neutral,"vitamin c, niacinamide, licorice extract, glycerin"
+face_cream,anti_aging,rich,white,neutral,"retinol, peptides, ceramides, hyaluronic acid"
+
+serum,brightening,lightweight,yellow,neutral,"vitamin c, ferulic acid, hyaluronic acid, glycerin"
+serum,anti_aging,lightweight,clear,neutral,"retinol, peptides, niacinamide, hyaluronic acid"
+serum,hydration,lightweight,clear,neutral,"hyaluronic acid, glycerin, panthenol, aloe vera"
+serum,sensitive,lightweight,clear,neutral,"centella asiatica, aloe vera, panthenol, glycerin"
+
+sunscreen,protection,lightweight,white,neutral,"zinc oxide, titanium dioxide, aloe vera, glycerin"
+sunscreen,protection,moisturizing,white,neutral,"zinc oxide, hyaluronic acid, glycerin, vitamin e"
+sunscreen,sensitive,lightweight,white,neutral,"zinc oxide, chamomile extract, aloe vera"
+
+toner,oily_skin,watery,clear,neutral,"niacinamide, witch hazel, glycerin, salicylic acid"
+toner,sensitive,watery,clear,neutral,"rose water, aloe vera, glycerin, chamomile extract"
+toner,hydration,watery,clear,neutral,"hyaluronic acid, glycerin, rose water"
