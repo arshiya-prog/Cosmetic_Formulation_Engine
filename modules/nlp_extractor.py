@@ -24,6 +24,12 @@ def extract_skin_concern(text):
         return "brightening"
     elif "oil" in text:
         return "oily_skin"
+    elif "aging" in text or "ageing" in text or "wrinkle" in text or "fine line" in text:
+        return "anti_aging"
+    elif "hydrat" in text or "moistur" in text:
+        return "hydration"
+    elif "spf" in text or "uv" in text or "sun" in text:
+        return "protection"
     return "general"
 
 

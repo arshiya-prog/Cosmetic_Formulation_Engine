@@ -12,6 +12,9 @@ sentence-transformers>=2.7.0
 # ── Vector similarity search ────────────────────────────────────
 faiss-cpu>=1.8.0           # use faiss-gpu if running on CUDA
 
+# ── Local LLM (Ollama HTTP API) for RAG generation ─────────────
+requests>=2.31.0
+
 # ── Data handling ───────────────────────────────────────────────
 pandas>=2.2.0
 numpy>=1.26.0

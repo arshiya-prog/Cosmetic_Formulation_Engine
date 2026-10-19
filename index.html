@@ -788,9 +788,9 @@ if (!_user) window.location.href = "login.html";
             <div class="score-bar" id="scoreBar"></div>
           </div>
           <div class="score-label">
-            Cosine similarity between your prompt and the closest formulation in the database,
-            computed using <strong>all-MiniLM-L6-v2</strong> embeddings via FAISS.
-            A score closer to <strong>1.0</strong> indicates a stronger semantic match.
+            Match score of the closest formulation in the database: cosine similarity from
+            <strong>all-MiniLM-L6-v2</strong> embeddings via FAISS, re-ranked by matching product
+            type, skin concern, texture and flavor. A score closer to <strong>1.0</strong> indicates a stronger match.
           </div>
         </div>
 
@@ -845,7 +845,7 @@ if (!_user) window.location.href = "login.html";
           <div class="card-icon" style="background: var(--tertiary-container);">📝</div>
           <span class="card-label">Product Description</span>
           <p class="desc-text">
-            ${generateDescription(data, prompt)}
+            ${data.description || generateDescription(data, prompt)}
             </p>
         </div>
 

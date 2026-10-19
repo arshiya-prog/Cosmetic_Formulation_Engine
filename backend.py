@@ -4,10 +4,12 @@ import csv
 import os
 
 from modules.nlp_extractor import extract_attributes
-from modules.formulation_model import retrieve_formulation
+from modules.formulation_model import (retrieve_candidates, retrieve_formulation,
+                                       retrieve_ingredients, find_mentioned_ingredients)
+from modules.rag_generator import generate_with_llm
 from modules.explainability import explain_ingredients
 from modules.description_generator import generate_description
-from modules.safety_checker import check_safety
+from modules.safety_checker import check_safety, ingredients_to_avoid
 
 app = Flask(__name__)
 CORS(app)
@@ -76,15 +78,33 @@ def generate():
         # 🔹 Extract attributes
         attributes = extract_attributes(user_input)
 
-        # 🔹 Get formulation
-        result = retrieve_formulation(attributes)
-        ingredients = result.get("ingredients", "")
-        score = result.get("score", 0)
+        # 🔹 Retrieve top-3 formulations (FAISS + hybrid re-ranking)
+        candidates = retrieve_candidates(attributes, 3, user_input)
+        score = candidates[0]["score"]
 
-        # 🔹 Explain + safety + description
+        # 🔹 Retrieve supporting ingredients from the knowledge base + ingredients the user named
+        avoid = ingredients_to_avoid(attributes)
+        mentioned = find_mentioned_ingredients(user_input)
+        supporting = retrieve_ingredients(attributes, user_input, 4, exclude=avoid)
+
+        # 🔹 Augmented generation with local LLM; fall back to template if Ollama is unavailable
+        try:
+            llm = generate_with_llm(user_input, attributes, candidates,
+                                    supporting=supporting, mentioned=mentioned, avoid=avoid)
+            ingredients = llm["ingredients"]
+            description = llm["description"] or generate_description(attributes, ingredients)
+            reasoning = llm["reasoning"]
+            generated_by = "llm"
+        except Exception as e:
+            print(f"[RAG] LLM generation failed, using fallback: {e}")
+            ingredients = retrieve_formulation(attributes, candidates)["ingredients"]
+            description = generate_description(attributes, ingredients)
+            reasoning = ""
+            generated_by = "template"
+
+        # 🔹 Explain + safety
         explanation = explain_ingredients(ingredients, attributes)
         safety = check_safety(ingredients, attributes)
-        description = generate_description(attributes, ingredients)
 
         response_data = {
             "product_type": attributes.get("product_type"),
@@ -96,6 +116,10 @@ def generate():
             "benefits": explanation,
             "safe": safety,
             "description": description,
+            "reasoning": reasoning,
+            "generated_by": generated_by,
+            "references": candidates,
+            "supporting_ingredients": supporting,
             "score": score
         }
 
@@ -159,11 +183,11 @@ def benchmark():
               matched_type = key
               break
 
-        #matched_type = None
-        #for key in competitor_db:
+        # matched_type = None
+        # for key in competitor_db:
            # if key in product_type or product_type in key:
                # matched_type = key
-               #break
+               # break
 
         competitors = competitor_db.get(matched_type, list(competitor_db.values())[0])
 
